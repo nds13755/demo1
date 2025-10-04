@@ -1,6 +1,7 @@
 pipeline {
     agent any
 
+
     stages {
         stage('第一步： 拉取代码') {
             steps {
@@ -20,4 +21,15 @@ pipeline {
             }
         }
     }
+
+    post {
+            always {
+                emailext(
+                    subject: '构建通知：${PROJECT_NAME} - Build # ${BUILD_NUMBER} - ${BUILD_STATUS}!',
+                    body: '${FILE,path="email.html"}',
+                    to: 'nds13755@126.com,352599751@qq.com'
+                )
+            }
+     }
+
 }
